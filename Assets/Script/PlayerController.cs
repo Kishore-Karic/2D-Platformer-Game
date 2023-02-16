@@ -42,6 +42,11 @@ public class PlayerController : MonoBehaviour
         scoreController.IncreamentScore(1);
     }
 
+    public void TakeHit()
+    {
+        Debug.Log("Take Hit");
+    }
+
     void MoveCharacter(float horizontal, float vertical)
     {
         if(!isCrouching)
