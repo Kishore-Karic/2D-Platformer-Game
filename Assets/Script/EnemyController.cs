@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float speed;
-    public Animator animator;
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private Animator animator;
 
     private bool mustPatrol;
     private bool mustTurn;
 
     bool isAttacking;
 
-    public Transform groundCheckPos;
-    public LayerMask groundLayer;
+    [SerializeField]
+    private Transform groundCheckPos;
+    [SerializeField]
+    private LayerMask groundLayer;
 
     private Rigidbody2D rb2d;
 
@@ -65,8 +69,14 @@ public class EnemyController : MonoBehaviour
     {
         if(colliderName == "DamageArea" && other.tag == "Player")
         {
-            animator.SetTrigger("Attack");
-            other.GetComponent<PlayerController>().TakeHit();
+            PlayerController playerController = other.GetComponent<PlayerController>();
+
+            if (playerController.Alive())
+            {
+
+                animator.SetTrigger("Attack");
+                other.GetComponent<PlayerController>().TakeHit();
+            }
         }
     }
 }

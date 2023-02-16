@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GroundCheck : MonoBehaviour
 {
@@ -12,7 +13,15 @@ public class GroundCheck : MonoBehaviour
         {
             playerController.SetGround(true);
             playerController.animator.SetBool("Death", true);
+            StartCoroutine("Reload");
         }
+    }
+
+    IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(1.5f);
+        playerController.animator.SetBool("Death", false);
+        SceneManager.LoadScene(0);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
