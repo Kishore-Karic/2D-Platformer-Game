@@ -127,7 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 5056350465435666051}
-  gameObject: {fileID: 6577002007338892590}
 --- !u!61 &3158597979663839594
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -318,5 +317,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1054775356}
+  scoreController: {fileID: 0}
   speed: 8
   jump: 7
