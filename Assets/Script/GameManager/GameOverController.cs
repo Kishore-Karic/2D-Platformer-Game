@@ -9,11 +9,6 @@ public class GameOverController : MonoBehaviour
     [SerializeField]
     private Button restartButton, mainmenuButton;
 
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
     private void Awake()
     {
         restartButton.onClick.AddListener(Reload);
@@ -27,7 +22,8 @@ public class GameOverController : MonoBehaviour
 
     private void Reload()
     {
-        SceneManager.LoadScene(1);
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.buildIndex);
     }
 
     private void MainMenu()
