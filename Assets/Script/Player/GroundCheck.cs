@@ -5,7 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class GroundCheck : MonoBehaviour
 {
-    public PlayerController playerController;
+    [SerializeField]
+    private PlayerController playerController;
+
+    [SerializeField]
+    private GameOverController gameOverController;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -21,7 +25,8 @@ public class GroundCheck : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         playerController.animator.SetBool("Death", false);
-        SceneManager.LoadScene(1);
+        playerController.SetDeath(true);
+        gameOverController.PlayerDead();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
