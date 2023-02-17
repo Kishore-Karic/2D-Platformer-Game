@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         animator.SetBool("Death", false);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     void MoveCharacter(float horizontal, float vertical)

@@ -21,7 +21,7 @@ public class GroundCheck : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         playerController.animator.SetBool("Death", false);
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
