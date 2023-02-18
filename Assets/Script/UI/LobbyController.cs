@@ -7,9 +7,10 @@ using UnityEngine.SceneManagement;
 public class LobbyController : MonoBehaviour
 {
     [SerializeField]
-    private Button playButton, levelButton, quitButton;
+    private Button playButton, levelButton, quitButton, resetButton, lockStatusOkayButton, resetYesButton, resetNoButton;
+
     [SerializeField]
-    private GameObject entryLayer, levelLayer;
+    private GameObject entryLayer, levelLayer, resetLayer, lockStatus;
 
     private int sceneToContinue, loadNextScene;
 
@@ -24,7 +25,11 @@ public class LobbyController : MonoBehaviour
     {
         playButton.onClick.AddListener(Play);
         levelButton.onClick.AddListener(SelectLevel);
+        resetButton.onClick.AddListener(ResetLevels);
         quitButton.onClick.AddListener(Quit);
+        lockStatusOkayButton.onClick.AddListener(TurnOffDisplayStatus);
+        resetYesButton.onClick.AddListener(ResetYes);
+        resetNoButton.onClick.AddListener(ResetNo);
     }
 
     private void Play()
@@ -46,8 +51,43 @@ public class LobbyController : MonoBehaviour
         levelLayer.SetActive(true);
     }
 
+    private void ResetLevels()
+    {
+        entryLayer.SetActive(false);
+        resetLayer.SetActive(true);
+    }
+
+    private void ResetYes()
+    {
+        LevelManager.Instance.SetLevelStatus("Level1", LevelStatus.Unlocked);
+        LevelManager.Instance.SetLevelStatus("Level2", LevelStatus.Locked);
+        LevelManager.Instance.SetLevelStatus("Level3", LevelStatus.Locked);
+        LevelManager.Instance.SetLevelStatus("Level4", LevelStatus.Locked);
+        LevelManager.Instance.SetLevelStatus("Level5", LevelStatus.Locked);
+        PlayerPrefs.SetInt("SaveScene", 1);
+        ResetNo();
+    }
+
+    private void ResetNo()
+    {
+        resetLayer.SetActive(false);
+        entryLayer.SetActive(true);
+    }
+
     private void Quit()
     {
         Application.Quit();
+    }
+
+    public void TurnOnDisplayStatus()
+    {
+        levelLayer.SetActive(false);
+        lockStatus.SetActive(true);
+    }
+
+    private void TurnOffDisplayStatus()
+    {
+        lockStatus.SetActive(false);
+        levelLayer.SetActive(true);
     }
 }
