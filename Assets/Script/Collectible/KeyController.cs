@@ -4,13 +4,34 @@ using UnityEngine;
 
 public class KeyController : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    [SerializeField]
+    private ParticleSystem particleSystem;
+    [SerializeField]
+    private SpriteRenderer sprite;
+
+    private bool once = true;
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.GetComponent<PlayerController>() != null)
+        if(collision.gameObject.GetComponent<PlayerController>() != null && once)
         {
             PlayerController playerController = collision.gameObject.GetComponent<PlayerController>();
             playerController.PickUpKey();
-            Destroy(gameObject);
+
+            var em = particleSystem.emission;
+            var dur = particleSystem.duration;
+
+            em.enabled = true;
+            particleSystem.Play();
+
+            once = false;
+            sprite.enabled = false;
+            Invoke(nameof(DestroyObj), dur);
         }
+    }
+
+    private void DestroyObj()
+    {
+        Destroy(gameObject);
     }
 }
