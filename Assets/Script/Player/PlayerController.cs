@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         if (!isDied)
         {
             Debug.Log("Picked Up Key");
+            SoundManager.Instance.PlayEffects(Sounds.KeyPickUp);
             scoreController.IncreamentScore(1);
         }
     }
@@ -83,6 +84,7 @@ public class PlayerController : MonoBehaviour
         {
             isDied = true;
             animator.SetBool("Death", true);
+            SoundManager.Instance.PlayEffects(Sounds.PlayerDeath);
             StartCoroutine("Reload");
         }
     }
@@ -129,7 +131,6 @@ public class PlayerController : MonoBehaviour
         if (!isDied)
         {
             // Horizontal move animation
-
             animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
             Vector3 scale = transform.localScale;
