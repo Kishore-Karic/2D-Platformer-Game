@@ -13,7 +13,7 @@ public class GroundCheck : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "FallDetector")
+        if(collision.gameObject.CompareTag("FallDetector"))
         {
             playerController.SetGround(true);
             SoundManager.Instance.PlayEffects(Sounds.PlayerDeath);
@@ -40,7 +40,7 @@ public class GroundCheck : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Platform")
+        if (collision.transform.CompareTag("Platform"))
         {
             playerController.SetJump(false);  //isJumping = false;
             playerController.SetGround(true);  //isGrounded = true;
@@ -49,7 +49,7 @@ public class GroundCheck : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Platform")
+        if (collision.transform.CompareTag("Platform"))
         {
             playerController.SetGround(false);  //isGrounded = false;
         }

@@ -67,7 +67,7 @@ public class EnemyController : MonoBehaviour
 
     public void CollionEnter(string colliderName, GameObject other)
     {
-        if(colliderName == "DamageArea" && other.tag == "Player")
+        if(colliderName == "DamageArea" && other.CompareTag("Player"))
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
 
