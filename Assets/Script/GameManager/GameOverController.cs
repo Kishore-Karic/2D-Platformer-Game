@@ -9,11 +9,6 @@ public class GameOverController : MonoBehaviour
     [SerializeField]
     private Button restartButton, mainmenuButton;
 
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
-
     private void Awake()
     {
         restartButton.onClick.AddListener(Reload);
