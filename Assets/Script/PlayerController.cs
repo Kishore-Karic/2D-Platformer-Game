@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,6 +24,14 @@ public class PlayerController : MonoBehaviour
     bool isCrouching;
     bool isJumping;
 
+    [SerializeField]
+    private int lives;
+
+    private void Start()
+    {
+        UIManager.Instance.AddLife(lives);
+    }
+
     void Awake()
     {
         Debug.Log("Player Controller Awake");
@@ -31,81 +40,123 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Jump");
-        crouch = Input.GetKey(KeyCode.LeftControl);
+        if (Alive())
+        {
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Jump");
+            crouch = Input.GetKey(KeyCode.LeftControl);
 
-        MoveCharacter(horizontal, vertical);
-        PlayerMovementAnimation(horizontal, vertical, crouch);
+            MoveCharacter(horizontal, vertical);
+            PlayerMovementAnimation(horizontal, vertical, crouch);
+        }
+    }
+
+    public bool Alive()
+    {
+        return lives > 0;
     }
 
     public void PickUpKey()
     {
-        Debug.Log("Picked Up Key");
-        scoreController.IncreamentScore(1);
+        if (Alive())
+        {
+            Debug.Log("Picked Up Key");
+            scoreController.IncreamentScore(1);
+        }
+    }
+
+    public void TakeHit()
+    {
+        Debug.Log("Take Hit");
+        if(lives > 0)
+        {
+            UIManager.Instance.RemoveLife();
+            lives--;
+            animator.SetTrigger("Hurt");
+        }
+
+        if(!Alive())
+        {
+            animator.SetBool("Death", true);
+            StartCoroutine("Reload");
+        }
+    }
+
+    IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(1.5f);
+        animator.SetBool("Death", false);
+        SceneManager.LoadScene(0);
     }
 
     void MoveCharacter(float horizontal, float vertical)
     {
-        if(!isCrouching)
+        if (Alive())
         {
-            Vector3 position = transform.position;
-            position.x += horizontal * speed * Time.deltaTime;
-            transform.position = position;
-        }
+            if (!isCrouching)
+            {
+                Vector3 position = transform.position;
+                position.x += horizontal * speed * Time.deltaTime;
+                transform.position = position;
+            }
 
-        if(vertical > 0 && isGrounded && !isCrouching && !isJumping)
-        {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
-            Debug.Log("Jump velocity");
-        }
+            if (vertical > 0 && isGrounded && !isCrouching && !isJumping)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
+                Debug.Log("Jump velocity");
+            }
 
-        if(!isJumping && !isGrounded && !isCrouching)
-        {
-            Debug.Log("Falling");
-            animator.SetBool("Fall", true);
-        }
-        
-        if(isGrounded && !isCrouching)
-        {
-            animator.SetBool("Fall", false);
+            if (!isJumping && !isGrounded && !isCrouching)
+            {
+                Debug.Log("Falling");
+                animator.SetBool("Fall", true);
+            }
+
+            if (isGrounded && !isCrouching)
+            {
+                animator.SetBool("Fall", false);
+            }
         }
     }
 
     void PlayerMovementAnimation(float horizontal, float vertical, bool crouch)
     {
-        // Horizontal move animation
-        
-        animator.SetFloat("Speed", Mathf.Abs(horizontal));
+        if (Alive())
+        {
+            // Horizontal move animation
 
-        Vector3 scale = transform.localScale;
+            animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
-        if (horizontal > 0)
-        {
-            scale.x = Mathf.Abs(scale.x);
-        }
-        else if (horizontal < 0)
-        {
-            scale.x = -1f * Mathf.Abs(scale.x);
-        }
-        transform.localScale = scale;
+            Vector3 scale = transform.localScale;
 
-        // jump animation
-        if (vertical > 0 && isGrounded && !isCrouching && !isJumping)
-        {
-            isJumping = true;
-            Debug.Log("Jump animation");
-            animator.SetTrigger("Jump");
-        }
+            if (horizontal > 0)
+            {
+                scale.x = Mathf.Abs(scale.x);
+            }
+            else if (horizontal < 0)
+            {
+                scale.x = -1f * Mathf.Abs(scale.x);
+            }
+            transform.localScale = scale;
 
-        // crouch animation
-        animator.SetBool("Crouch", crouch);
-        if(crouch)
-        {
-            isCrouching = true;
-        } else
-        {
-            isCrouching = false;
+            // jump animation
+            if (vertical > 0 && isGrounded && !isCrouching && !isJumping)
+            {
+                isJumping = true;
+                Debug.Log("Jump animation");
+                animator.SetTrigger("Jump");
+            }
+
+            // crouch animation
+            animator.SetBool("Crouch", crouch);
+            if (crouch)
+            {
+                isCrouching = true;
+            }
+            else
+            {
+                isCrouching = false;
+            }
         }
     }
 
