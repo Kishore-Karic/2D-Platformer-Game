@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
-    public ScoreController scoreController;
+    [SerializeField]
+    private ScoreController scoreController;
 
     [SerializeField]
     private float speed;
