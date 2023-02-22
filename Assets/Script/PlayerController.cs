@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
+    [SerializeField]
+    private ScoreController scoreController;
 
     [SerializeField]
     private float speed;
@@ -37,6 +39,12 @@ public class PlayerController : MonoBehaviour
         PlayerMovementAnimation(horizontal, vertical, crouch);
     }
 
+    public void PickUpKey()
+    {
+        Debug.Log("Picked Up Key");
+        scoreController.IncreamentScore(1);
+    }
+
     void MoveCharacter(float horizontal, float vertical)
     {
         if(!isCrouching)
@@ -52,13 +60,13 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Jump velocity");
         }
 
-        if(!isJumping && !isGrounded)
+        if(!isJumping && !isGrounded && !isCrouching)
         {
             Debug.Log("Falling");
             animator.SetBool("Fall", true);
         }
         
-        if(isGrounded)
+        if(isGrounded && !isCrouching)
         {
             animator.SetBool("Fall", false);
         }
