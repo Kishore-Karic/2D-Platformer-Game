@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     public Animator animator;
 
-    public float speed;
-    public float jump;
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private float jump;
 
     float horizontal;
     float vertical;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded;
     bool isCrouching;
+    bool isJumping;
 
     void Awake()
     {
@@ -43,16 +46,28 @@ public class PlayerController : MonoBehaviour
             transform.position = position;
         }
 
-        if(vertical > 0 && isGrounded && !isCrouching)
+        if(vertical > 0 && isGrounded && !isCrouching && !isJumping)
         {
             rb2d.velocity = new Vector2(rb2d.velocity.x, jump);
             Debug.Log("Jump velocity");
+        }
+
+        if(!isJumping && !isGrounded)
+        {
+            Debug.Log("Falling");
+            animator.SetBool("Fall", true);
+        }
+        
+        if(isGrounded)
+        {
+            animator.SetBool("Fall", false);
         }
     }
 
     void PlayerMovementAnimation(float horizontal, float vertical, bool crouch)
     {
         // Horizontal move animation
+        
         animator.SetFloat("Speed", Mathf.Abs(horizontal));
 
         Vector3 scale = transform.localScale;
@@ -68,8 +83,9 @@ public class PlayerController : MonoBehaviour
         transform.localScale = scale;
 
         // jump animation
-        if (vertical > 0 && isGrounded && !isCrouching)
+        if (vertical > 0 && isGrounded && !isCrouching && !isJumping)
         {
+            isJumping = true;
             Debug.Log("Jump animation");
             animator.SetTrigger("Jump");
         }
@@ -85,19 +101,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    public void SetJump(bool j)
     {
-        if(collision.transform.tag == "Platform")
-        {
-            isGrounded = true;
-        }
+        isJumping = j;
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    public void SetGround(bool g)
     {
-        if(collision.transform.tag == "Platform")
-        {
-            isGrounded = false;
-        }
+        isGrounded = g;
     }
 }
