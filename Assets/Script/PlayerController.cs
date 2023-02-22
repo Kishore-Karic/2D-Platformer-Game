@@ -6,8 +6,10 @@ public class PlayerController : MonoBehaviour
 {
     public Animator animator;
 
-    public float speed;
-    public float jump;
+    [SerializeField]
+    private float speed;
+    [SerializeField]
+    private float jump;
 
     float horizontal;
     float vertical;
