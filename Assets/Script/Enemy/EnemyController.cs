@@ -73,7 +73,7 @@ public class EnemyController : MonoBehaviour
 
             if (playerController.Alive())
             {
-
+                SoundManager.Instance.PlayEffects(Sounds.EnemyAttack);
                 animator.SetTrigger("Attack");
                 other.GetComponent<PlayerController>().TakeHit();
             }

@@ -16,6 +16,8 @@ public class LobbyController : MonoBehaviour
 
     private void Start()
     {
+        SoundManager.Instance.StopMusic(Sounds.BackGround);
+        SoundManager.Instance.PlayMusic(Sounds.BackGround);
         loadNextScene = SceneManager.GetActiveScene().buildIndex;
         entryLayer.SetActive(true);
         levelLayer.SetActive(false);
@@ -34,6 +36,7 @@ public class LobbyController : MonoBehaviour
 
     private void Play()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonClickPlay);
         sceneToContinue = PlayerPrefs.GetInt("SaveScene");
 
         if(sceneToContinue != 0)
@@ -47,18 +50,21 @@ public class LobbyController : MonoBehaviour
 
     private void SelectLevel()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonClick);
         entryLayer.SetActive(false);
         levelLayer.SetActive(true);
     }
 
     private void ResetLevels()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonClick);
         entryLayer.SetActive(false);
         resetLayer.SetActive(true);
     }
 
     private void ResetYes()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonClickYes);
         LevelManager.Instance.SetLevelStatus("Level1", LevelStatus.Unlocked);
         LevelManager.Instance.SetLevelStatus("Level2", LevelStatus.Locked);
         LevelManager.Instance.SetLevelStatus("Level3", LevelStatus.Locked);
@@ -70,12 +76,14 @@ public class LobbyController : MonoBehaviour
 
     private void ResetNo()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonClickNo);
         resetLayer.SetActive(false);
         entryLayer.SetActive(true);
     }
 
     private void Quit()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonClick);
         Application.Quit();
     }
 
@@ -87,6 +95,7 @@ public class LobbyController : MonoBehaviour
 
     private void TurnOffDisplayStatus()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonCLickOkay);
         lockStatus.SetActive(false);
         levelLayer.SetActive(true);
     }

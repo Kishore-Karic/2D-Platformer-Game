@@ -22,12 +22,14 @@ public class GameOverController : MonoBehaviour
 
     private void Reload()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonClickPlay);
         Scene scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
     }
 
     private void MainMenu()
     {
+        SoundManager.Instance.PlayEffects(Sounds.ButtonClick);
         SceneManager.LoadScene(0);
     }
 }

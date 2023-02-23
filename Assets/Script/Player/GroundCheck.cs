@@ -16,6 +16,7 @@ public class GroundCheck : MonoBehaviour
         if(collision.gameObject.CompareTag("FallDetector"))
         {
             playerController.SetGround(true);
+            SoundManager.Instance.PlayEffects(Sounds.PlayerDeath);
             playerController.animator.SetBool("Death", true);
             StartCoroutine("Reload");
         }
