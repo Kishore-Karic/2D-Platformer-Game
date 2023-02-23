@@ -8,6 +8,9 @@ public class GroundCheck : MonoBehaviour
     [SerializeField]
     private PlayerController playerController;
 
+    [SerializeField]
+    private GameOverController gameOverController;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.CompareTag("FallDetector"))
@@ -22,12 +25,13 @@ public class GroundCheck : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         playerController.animator.SetBool("Death", false);
-        SceneManager.LoadScene(0);
+        playerController.SetDeath(true);
+        gameOverController.PlayerDead();
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Platform"))
+        if (collision.transform.CompareTag("Platform"))
         {
             playerController.SetJump(false);  //isJumping = false;
             playerController.SetGround(true);  //isGrounded = true;
@@ -36,7 +40,7 @@ public class GroundCheck : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Platform"))
+        if (collision.transform.CompareTag("Platform"))
         {
             playerController.SetGround(false);  //isGrounded = false;
         }

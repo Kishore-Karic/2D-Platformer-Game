@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     [SerializeField]
     private ScoreController scoreController;
+    [SerializeField]
+    private GameOverController gameOverController;
 
     [SerializeField]
     private float speed;
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
     bool isGrounded;
     bool isCrouching;
     bool isJumping;
+    bool isDied;
 
     [SerializeField]
     private int lives;
@@ -40,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (Alive())
+        if (!isDied)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Jump");
@@ -58,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     public void PickUpKey()
     {
-        if (Alive())
+        if (!isDied)
         {
             Debug.Log("Picked Up Key");
             scoreController.IncreamentScore(1);
@@ -70,6 +73,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Take Hit");
         if(lives > 0)
         {
+            isDied = false;
             UIManager.Instance.RemoveLife();
             lives--;
             animator.SetTrigger("Hurt");
@@ -77,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
         if(!Alive())
         {
+            isDied = true;
             animator.SetBool("Death", true);
             StartCoroutine("Reload");
         }
@@ -86,12 +91,12 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         animator.SetBool("Death", false);
-        SceneManager.LoadScene(0);
+        gameOverController.PlayerDead();
     }
 
     void MoveCharacter(float horizontal, float vertical)
     {
-        if (Alive())
+        if (!isDied)
         {
             if (!isCrouching)
             {
@@ -121,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerMovementAnimation(float horizontal, float vertical, bool crouch)
     {
-        if (Alive())
+        if (!isDied)
         {
             // Horizontal move animation
 
@@ -168,5 +173,10 @@ public class PlayerController : MonoBehaviour
     public void SetGround(bool g)
     {
         isGrounded = g;
+    }
+
+    public void SetDeath(bool d)
+    {
+        isDied = true;
     }
 }
