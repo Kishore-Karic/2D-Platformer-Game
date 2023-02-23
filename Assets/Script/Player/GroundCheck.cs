@@ -21,6 +21,14 @@ public class GroundCheck : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "SaveScene")
+        {
+            PlayerPrefs.SetInt("SaveScene", SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
     IEnumerator Reload()
     {
         yield return new WaitForSeconds(1.5f);
