@@ -16,6 +16,6 @@ A Complete Platformer game with 5 Levels. <br/>
 # Design Pattern
 * Singleton for Score and Sound System <br/>
 
-[Picture_1](https://github.com/Kishore-Karic/2D-Platformer-Game/assets/97879797/d0a744b6-dde8-4a5f-a1c4-85d61b4e4ea5)
+![Picture1](../Picture_1.jpg?raw=true)
 
 
