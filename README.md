@@ -2,7 +2,7 @@
 The 2D platformer game to be forked something like mario its a clean repo made for LTS version
 
 A Complete Platformer game with 5 Levels. <br/>
-[Gameplay Trailer](https://drive.google.com/file/d/18IL6NZdzcaUVi4RAeMtIB0P1FqbSX367/view?usp=share_link) <br/>
+[Gameplay Trailer](https://youtu.be/BN6FO8Z64Fo) <br/>
 [Playable Link](https://kishore-karic.itch.io/the-explorer)
 
 # Game Functionality
